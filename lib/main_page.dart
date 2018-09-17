@@ -36,24 +36,33 @@ class _MainPageState extends State<MainPage>
     List<Widget> tabs = [];
 
     for (int i = 0; i < _dayNames.length; i++) {
-      tabs.add(SafeArea(
-        child: DayView(
-          days != null ? days[i] : null
-        )
-      ));
+      tabs.add(SafeArea(child: DayView(days != null ? days[i] : null)));
     }
 
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text('GimVic'),
-          bottom: TabBar(
-              controller: controller,
-              isScrollable: true,
-              tabs: _dayNames.map<Tab>((String day) {
-                return Tab(
-                  text: day.toUpperCase(),
-                );
-              }).toList())),
+        title: new Text('GimVic'),
+        bottom: TabBar(
+            controller: controller,
+            isScrollable: true,
+            tabs: _dayNames.map<Tab>((String day) {
+              return Tab(
+                text: day.toUpperCase(),
+              );
+            }).toList()),
+        actions: <Widget>[
+          new IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                print('tle se mormo logoutat'); //TODO: logout (after login)
+              }),
+          new IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                print('tle odpremo settingse'); //TODO: settings
+              })
+        ],
+      ),
       body: TabBarView(controller: controller, children: tabs),
     );
   }
