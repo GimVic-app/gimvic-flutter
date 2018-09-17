@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gimvic_flutter/menu.dart';
+import 'package:gimvic_flutter/lesson.dart';
 
 class DayView extends StatelessWidget {
   final Map<String, Object> data;
@@ -13,54 +15,14 @@ class DayView extends StatelessWidget {
       );
     }
 
-    List<Widget> elements = [];
+    Widget timetable = Column(
+        children: (data['ure'] as List).map((data) => Lesson(data)).toList());
 
-    for (Map<String, Object> lesson in data['ure']) {
-      if (lesson['prosta_ura']) {
-        elements.add(new Card(
-            color: Colors.black12,
-            child: Row(
-              children: <Widget>[Text(lesson['stevilka'].toString())],
-            )));
-        continue;
-      }
-
-      elements.add(Card(
-        color: lesson['je_nadomescanje'] == true
-            ? Theme.of(context).accentColor
-            : null,
-        child: Row(
-          children: <Widget>[
-            Text(lesson['stevilka'].toString()),
-            Text(lesson['predmet']),
-            Column(
-              children: <Widget>[
-                Text((lesson['ucitelji'] as List).cast<String>().join(', ')),
-                Text(lesson['ucilnica'].toString())
-              ],
-            )
-          ],
-        ),
-      ));
-    }
-
-    elements.add(Container(
-      height: 32.0,
-    ));
-    elements.add(Card(
-      child: Column(
-        children: <Widget>[
-          Text('Malica'),
-//          Text((((data['jedilnik'] as Map<String, Object>)['malica']
-//                  as Map<String, Object>)['navadna'] as List<String>)
-//              .join('\n'))
-        ],
-      ),
-    ));
+    Widget menu = Menu(data['jedilnik'] as Map<String, Object>);
 
     return ListView(
       padding: EdgeInsets.all(8.0),
-      children: elements,
+      children: [timetable, menu],
     );
   }
 }

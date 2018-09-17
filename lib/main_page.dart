@@ -26,7 +26,6 @@ class _MainPageState extends State<MainPage>
 
   void loadData() async {
     Map<String, Object> data = await getData();
-    print(data);
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
     });
