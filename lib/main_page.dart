@@ -17,7 +17,8 @@ class _MainPageState extends State<MainPage>
 
   @override
   void initState() {
-    controller = TabController(vsync: this, length: 5);
+    int weekday = new DateTime.now().weekday - 1;
+    controller = TabController(vsync: this, length: 5, initialIndex: weekday);
     super.initState();
 
     loadData();
