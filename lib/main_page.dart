@@ -19,6 +19,7 @@ class _MainPageState extends State<MainPage>
 
   List<Map<String, Object>> days;
   bool error = false;
+  bool loading = false;
 
   @override
   void initState() {
@@ -31,12 +32,12 @@ class _MainPageState extends State<MainPage>
     for (int i = 0; i < _dayNames.length; i++) {
       refreshKeys.add(GlobalKey<RefreshIndicatorState>());
     }
-
-    loadData();
   }
 
   void loadData() async {
+    if (loading) return;
     error = false;
+    loading = true;
 
     for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
       key.currentState?.show();
@@ -48,10 +49,12 @@ class _MainPageState extends State<MainPage>
     } on DioError {
       setState(() {
         error = true;
+        loading = false;
       });
       return;
     }
 
+    loading = false;
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
     });
@@ -91,7 +94,7 @@ class _MainPageState extends State<MainPage>
           new IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
-                print('tle se mormo logoutat'); //TODO: logout (after login)
+                print('tle se mormo logoutat');  // TODO: logout (after login)
               }),
           new IconButton(
               icon: Icon(Icons.settings),
