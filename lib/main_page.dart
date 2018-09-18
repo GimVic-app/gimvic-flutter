@@ -11,7 +11,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
+
   TabController controller;
+  List<GlobalKey<RefreshIndicatorState>> refreshKeys;
 
   List<Map<String, Object>> days;
 
@@ -21,10 +23,19 @@ class _MainPageState extends State<MainPage>
     controller = TabController(vsync: this, length: 5, initialIndex: weekday);
     super.initState();
 
+    refreshKeys = [];
+    for (int i = 0; i < _dayNames.length; i++) {
+      refreshKeys.add(GlobalKey<RefreshIndicatorState>());
+    }
+
     loadData();
   }
 
   void loadData() async {
+    for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
+      key.currentState?.show();
+    }
+
     Map<String, Object> data = await getData();
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
@@ -36,7 +47,13 @@ class _MainPageState extends State<MainPage>
     List<Widget> tabs = [];
 
     for (int i = 0; i < _dayNames.length; i++) {
-      tabs.add(SafeArea(child: DayView(days != null ? days[i] : null)));
+      tabs.add(SafeArea(
+          child: DayView(
+              days != null ? days[i] : null,
+              loadData,
+              refreshKeys[i]
+          )
+      ));
     }
 
     return new Scaffold(

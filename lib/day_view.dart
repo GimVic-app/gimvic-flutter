@@ -4,14 +4,18 @@ import 'package:gimvic_flutter/lesson.dart';
 
 class DayView extends StatelessWidget {
   final Map<String, Object> data;
+  final Function onRefresh;
+  final GlobalKey<RefreshIndicatorState> indicatorKey;
 
-  DayView(this.data);
+  DayView(this.data, this.onRefresh, this.indicatorKey);
 
   @override
   Widget build(BuildContext context) {
     if (data == null) {
-      return Center(
-        child: CircularProgressIndicator(),
+      return RefreshIndicator(
+        key: indicatorKey,
+        onRefresh: () async => await onRefresh(),
+        child: Container(),
       );
     }
 
@@ -20,9 +24,14 @@ class DayView extends StatelessWidget {
 
     Widget menu = Menu(data['jedilnik'] as Map<String, Object>);
 
-    return ListView(
-      padding: EdgeInsets.all(8.0),
-      children: [timetable, menu],
+    return RefreshIndicator(
+      key: indicatorKey,
+      onRefresh: () async => await onRefresh(),
+      child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.all(8.0),
+        children: [timetable, menu],
+      )
     );
   }
 }
