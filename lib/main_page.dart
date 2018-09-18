@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:gimvic_flutter/api.dart';
 import 'package:gimvic_flutter/day_view.dart';
+import 'package:gimvic_flutter/settings.dart';
 
 const _dayNames = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek'];
 
@@ -36,7 +37,6 @@ class _MainPageState extends State<MainPage>
 
   void loadData() async {
     error = false;
-    print('loading');
 
     for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
       key.currentState?.show();
@@ -96,7 +96,11 @@ class _MainPageState extends State<MainPage>
           new IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
-                print('tle odpremo settingse'); //TODO: settings
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return SettingsView(days);
+                  })
+                );
               })
         ],
       ),

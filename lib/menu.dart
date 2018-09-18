@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-const String snackType = 'navadna';
-const String lunchType = 'navadno';
+import 'package:gimvic_flutter/settings.dart';
 
 class Menu extends StatelessWidget {
   final Map<String, Object> menu;
@@ -10,6 +8,16 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String snackType = sharedPreferences.getString('snack_type');
+    String lunchType = sharedPreferences.getString('lunch_type');
+
+    if (snackType == null) {
+      snackType = (menu['malica'] as Map<String, Object>).keys.first;
+    }
+    if (lunchType == null) {
+      lunchType = (menu['kosilo'] as Map<String, Object>).keys.first;
+    }
+
     List<String> snack =
         ((menu['malica'] as Map<String, Object>)[snackType] as List)
             .cast<String>();

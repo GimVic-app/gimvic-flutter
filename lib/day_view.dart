@@ -16,8 +16,6 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build, error $error');
-
     if (data == null || error) {
       return RefreshIndicator(
         key: indicatorKey,

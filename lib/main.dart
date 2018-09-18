@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gimvic_flutter/main_page.dart';
+import 'package:gimvic_flutter/settings.dart';
 
-void main() => runApp(new MyApp());
+void main() async {
+  sharedPreferences = await SharedPreferences.getInstance();
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
