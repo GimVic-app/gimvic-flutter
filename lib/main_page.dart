@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage>
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('GimVic'),
+        title: new Text('GimVič'),
         bottom: TabBar(
             controller: controller,
             isScrollable: true,
@@ -80,6 +80,7 @@ class _MainPageState extends State<MainPage>
               })
         ],
       ),
+      backgroundColor: Colors.grey[200],
       body: TabBarView(controller: controller, children: tabs),
     );
   }

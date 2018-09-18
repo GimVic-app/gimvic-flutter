@@ -18,14 +18,22 @@ class Menu extends StatelessWidget {
             .cast<String>();
 
     return Column(children: [
-      MenuEntry(
-        'Malica - $snackType',
-        snack.join('\n'),
+      Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: MenuEntry(
+            'Malica - $snackType',
+            snack.join('\n'),
+          )),
+      Padding(
+        padding: EdgeInsets.only(top: 4.0),
       ),
-      MenuEntry(
-        'Kosilo - $lunchType',
-        lunch.join('\n'),
-      ),
+      Padding(
+          padding: EdgeInsets.only(bottom: 4.0),
+          child: MenuEntry(
+            'Kosilo - $lunchType',
+            lunch.join('\n'),
+          )
+      )
     ]);
   }
 }
@@ -38,25 +46,24 @@ class MenuEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        elevation: 0.0,
         child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: EdgeInsets.only(bottom: 4.0),
-              child: Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500
-                  )
-              ),
+              child: Text(title,
+                  textAlign: TextAlign.center,
+                  style:
+                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
             ),
             Text(
-                content,
-                style: TextStyle(fontSize: 14.0),
-            )]),
-    ));
+              content,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.0),
+            )
+          ]),
+        ));
   }
 }

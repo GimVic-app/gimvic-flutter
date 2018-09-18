@@ -9,6 +9,18 @@ const TextStyle lessonTextStyle =
 const TextStyle classroomTextStyle =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
 
+const TextStyle freeTextStyle =
+    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
+
+const TextStyle numberTextStyleSuplenca =
+TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.white);
+
+const TextStyle lessonTextStyleSuplenca =
+TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Colors.white70);
+
+const TextStyle classroomTextStyleSuplenca =
+TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.white);
+
 class Lesson extends StatelessWidget {
   final Map<String, dynamic> data;
 
@@ -17,9 +29,9 @@ class Lesson extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data['prosta_ura']) {
-      return getFreeTimeCard(Theme.of(context).disabledColor);
+      return getFreeTimeCard(Colors.grey[300]);
     } else if (data['je_nadomescanje']) {
-      return getSupLessionCard(Theme.of(context).accentColor);
+      return getSupLessionCard(Colors.green[400]);
     } else {
       return getLessonCard();
     }
@@ -27,12 +39,13 @@ class Lesson extends StatelessWidget {
 
   Card getFreeTimeCard(Color color) {
     return Card(
-        color: color,
+        color: Colors.transparent,
+        elevation: 0.0,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
           child: Row(
             children: <Widget>[
-              Text(data['stevilka'].toString(), style: numberTextStyle)
+              Text('prosta ura', style: freeTextStyle)
             ],
           ),
         ));
@@ -40,19 +53,20 @@ class Lesson extends StatelessWidget {
 
   Card getLessonCard() {
     return Card(
+        elevation: 0.0,
         child: Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Text(data['stevilka'].toString(), style: numberTextStyle),
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Text(data['predmet'], style: lessonTextStyle))),
-          Text(data['ucilnica'].toString(), style: classroomTextStyle),
-        ],
-      ),
-    ));
+          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          child: Row(
+            children: <Widget>[
+              Text(data['stevilka'].toString(), style: numberTextStyle),
+              Expanded(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(data['predmet'], style: lessonTextStyle))),
+              Text(data['ucilnica'].toString(), style: classroomTextStyle),
+            ],
+          ),
+        ));
   }
 
   Card getSupLessionCard(Color color) {
@@ -118,14 +132,14 @@ class _SupLessonCardState extends State<_SupLessonCard>
               child: Row(
                 children: <Widget>[
                   Text(widget.data['stevilka'].toString(),
-                      style: numberTextStyle),
+                      style: numberTextStyleSuplenca),
                   Expanded(
                       child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(widget.data['predmet'],
-                              style: lessonTextStyle))),
+                              style: lessonTextStyleSuplenca))),
                   Text(widget.data['ucilnica'].toString(),
-                      style: classroomTextStyle),
+                      style: classroomTextStyleSuplenca),
                 ],
               ),
             ),
