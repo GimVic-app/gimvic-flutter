@@ -46,7 +46,6 @@ class MenuEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 0.0,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child:

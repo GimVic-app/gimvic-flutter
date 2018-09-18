@@ -40,8 +40,15 @@ class DayView extends StatelessWidget {
       );
     }
 
-    Widget timetable = Column(
-        children: (data['ure'] as List).map((data) => Lesson(data)).toList());
+    Widget timetable = Card(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+            children:
+                (data['ure'] as List).map((data) => Lesson(data)).toList()
+        ),
+      ),
+    );
 
     Widget menu = Menu(data['jedilnik'] as Map<String, Object>);
 

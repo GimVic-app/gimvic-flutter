@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 
-const TextStyle numberTextStyle =
+TextStyle numberTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300);
 
-const TextStyle lessonTextStyle =
+TextStyle lessonTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500);
 
-const TextStyle classroomTextStyle =
+TextStyle classroomTextStyle =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
 
-const TextStyle freeTextStyle =
-    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
+TextStyle numberTextStyleNadomescanje =
+    TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Colors.green[400]);
 
-const TextStyle numberTextStyleSuplenca =
-TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300, color: Colors.white);
+TextStyle lessonTextStyleNadomescanje = TextStyle(
+    fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.green[400]);
 
-const TextStyle lessonTextStyleSuplenca =
-TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Colors.white70);
-
-const TextStyle classroomTextStyleSuplenca =
-TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.white);
+TextStyle classroomTextStyleNadomescanje =
+    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.green[400]);
 
 class Lesson extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -29,31 +26,34 @@ class Lesson extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data['prosta_ura']) {
-      return getFreeTimeCard(Colors.grey[300]);
+      return getFreeTimeCard();
     } else if (data['je_nadomescanje']) {
-      return getSupLessionCard(Colors.green[400]);
+      return getSupLessionItem();
     } else {
-      return getLessonCard();
+      return getLessonItem();
     }
   }
 
-  Card getFreeTimeCard(Color color) {
-    return Card(
-        color: Colors.transparent,
-        elevation: 0.0,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-          child: Row(
-            children: <Widget>[
-              Text('prosta ura', style: freeTextStyle)
-            ],
-          ),
-        ));
+  Widget getFreeTimeCard() {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+        child: Row(
+          children: <Widget>[
+            Text(data['stevilka'].toString(), style: numberTextStyle),
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text('   -', style: lessonTextStyle))),
+          ],
+        ),
+      ),
+    );
   }
 
-  Card getLessonCard() {
-    return Card(
-        elevation: 0.0,
+  Widget getLessonItem() {
+    return Container(
+        color: Colors.transparent,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Row(
@@ -69,24 +69,23 @@ class Lesson extends StatelessWidget {
         ));
   }
 
-  Card getSupLessionCard(Color color) {
-    return Card(
-      color: color,
-      child: _SupLessonCard(data),
+  Widget getSupLessionItem() {
+    return Container(
+      child: _SupLessonItem(data),
     );
   }
 }
 
-class _SupLessonCard extends StatefulWidget {
+class _SupLessonItem extends StatefulWidget {
   final Map<String, dynamic> data;
 
-  _SupLessonCard(this.data);
+  _SupLessonItem(this.data);
 
   @override
-  _SupLessonCardState createState() => _SupLessonCardState();
+  _SupLessonItemState createState() => _SupLessonItemState();
 }
 
-class _SupLessonCardState extends State<_SupLessonCard>
+class _SupLessonItemState extends State<_SupLessonItem>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   CurvedAnimation _easeInAnimation;
@@ -128,18 +127,18 @@ class _SupLessonCardState extends State<_SupLessonCard>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
               child: Row(
                 children: <Widget>[
                   Text(widget.data['stevilka'].toString(),
-                      style: numberTextStyleSuplenca),
+                      style: numberTextStyleNadomescanje),
                   Expanded(
                       child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(widget.data['predmet'],
-                              style: lessonTextStyleSuplenca))),
+                              style: lessonTextStyleNadomescanje))),
                   Text(widget.data['ucilnica'].toString(),
-                      style: classroomTextStyleSuplenca),
+                      style: classroomTextStyleNadomescanje),
                 ],
               ),
             ),
