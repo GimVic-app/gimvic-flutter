@@ -108,13 +108,12 @@ class _SupLessonCardState extends State<_SupLessonCard>
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          InkWell(
-            onTap: _handleTap,
-            child: Padding(
+    return InkWell(
+        onTap: _handleTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 children: <Widget>[
@@ -130,16 +129,14 @@ class _SupLessonCardState extends State<_SupLessonCard>
                 ],
               ),
             ),
-          ),
-          ClipRect(
-            child: Align(
-              heightFactor: _easeInAnimation.value,
-              child: child,
+            ClipRect(
+              child: Align(
+                heightFactor: _easeInAnimation.value,
+                child: child,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   Widget getAdditionalDetails() {
