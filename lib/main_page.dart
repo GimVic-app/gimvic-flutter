@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:gimvic_flutter/api.dart';
 import 'package:gimvic_flutter/day_view.dart';
 
@@ -10,16 +12,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage>
-    with SingleTickerProviderStateMixin {
-
+    with SingleTickerProviderStateMixin, AfterLayoutMixin<MainPage> {
   TabController controller;
   List<GlobalKey<RefreshIndicatorState>> refreshKeys;
 
   List<Map<String, Object>> days;
+  bool error = false;
 
   @override
   void initState() {
     int weekday = new DateTime.now().weekday - 1;
+    if (weekday > 4) weekday = 0;
     controller = TabController(vsync: this, length: 5, initialIndex: weekday);
     super.initState();
 
@@ -32,14 +35,35 @@ class _MainPageState extends State<MainPage>
   }
 
   void loadData() async {
+    error = false;
+    print('loading');
+
     for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
       key.currentState?.show();
     }
 
-    Map<String, Object> data = await getData();
+    Map<String, Object> data;
+    try {
+      data = await getData();
+    } on DioError {
+      setState(() {
+        error = true;
+      });
+      return;
+    }
+
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
     });
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (days == null) {
+      for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
+        key.currentState?.show();
+      }
+    }
   }
 
   @override
@@ -49,11 +73,7 @@ class _MainPageState extends State<MainPage>
     for (int i = 0; i < _dayNames.length; i++) {
       tabs.add(SafeArea(
           child: DayView(
-              days != null ? days[i] : null,
-              loadData,
-              refreshKeys[i]
-          )
-      ));
+              days != null ? days[i] : null, loadData, refreshKeys[i], error)));
     }
 
     return new Scaffold(

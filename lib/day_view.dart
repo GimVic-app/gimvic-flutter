@@ -6,16 +6,37 @@ class DayView extends StatelessWidget {
   final Map<String, Object> data;
   final Function onRefresh;
   final GlobalKey<RefreshIndicatorState> indicatorKey;
+  final bool error;
 
-  DayView(this.data, this.onRefresh, this.indicatorKey);
+  DayView(this.data, this.onRefresh, this.indicatorKey, this.error);
+
+  void showIndicator() async {
+    indicatorKey.currentState?.show();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (data == null) {
+    print('build, error $error');
+
+    if (data == null || error) {
       return RefreshIndicator(
         key: indicatorKey,
         onRefresh: () async => await onRefresh(),
-        child: Container(),
+        child: error
+            ? ListView(physics: AlwaysScrollableScrollPhysics(), children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 32.0),
+                  child: Center(
+                      child: Text('Ni internetne povezave.')
+                  )),
+                FlatButton(
+                  child: Text('Poskusi znova'.toUpperCase()),
+                  onPressed: onRefresh,
+                )
+              ])
+            : ListView(
+                physics: AlwaysScrollableScrollPhysics(),
+              ),
       );
     }
 
@@ -25,13 +46,12 @@ class DayView extends StatelessWidget {
     Widget menu = Menu(data['jedilnik'] as Map<String, Object>);
 
     return RefreshIndicator(
-      key: indicatorKey,
-      onRefresh: () async => await onRefresh(),
-      child: ListView(
-        physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.all(8.0),
-        children: [timetable, menu],
-      )
-    );
+        key: indicatorKey,
+        onRefresh: () async => await onRefresh(),
+        child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.all(8.0),
+          children: [timetable, menu],
+        ));
   }
 }
