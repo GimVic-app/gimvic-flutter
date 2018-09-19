@@ -81,6 +81,7 @@ class _MainPageState extends State<MainPage>
     }
 
     return new Scaffold(
+      backgroundColor: dark ? Colors.grey[900] : null,
       appBar: new AppBar(
         backgroundColor: dark ? Colors.black : Colors.green,
         title: new Text('GimVič'),

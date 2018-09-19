@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gimvic_flutter/main.dart';
 
 TextStyle numberTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300);
@@ -9,14 +10,23 @@ TextStyle lessonTextStyle =
 TextStyle classroomTextStyle =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
 
-TextStyle numberTextStyleNadomescanje =
-    TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Colors.green[400]);
+TextStyle numberTextStyleNadomescanje = TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w400,
+        color: dark ? Colors.greenAccent[400] : Colors.green[400]
+    );
 
 TextStyle lessonTextStyleNadomescanje = TextStyle(
-    fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.green[400]);
+    fontSize: 20.0,
+    fontWeight: FontWeight.w500,
+    color: dark ? Colors.greenAccent[400] : Colors.green[400]
+);
 
-TextStyle classroomTextStyleNadomescanje =
-    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.green[400]);
+TextStyle classroomTextStyleNadomescanje = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w400,
+    color: dark ? Colors.greenAccent[400] : Colors.green[400]
+);
 
 class Lesson extends StatelessWidget {
   final Map<String, dynamic> data;

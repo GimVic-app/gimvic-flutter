@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gimvic_flutter/menu.dart';
 import 'package:gimvic_flutter/lesson.dart';
+import 'package:gimvic_flutter/main.dart';
 
 class DayView extends StatelessWidget {
   final Map<String, Object> data;
@@ -39,6 +40,7 @@ class DayView extends StatelessWidget {
     }
 
     Widget timetable = Card(
+      color: dark ? Colors.transparent : null,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
