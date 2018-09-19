@@ -16,9 +16,6 @@ class User {
   }
 
   static Future<bool> login(String username, String password) async {
-    print(username);
-    print(password);
-
     Map<String, Object> response = await loginUser(username, password);
 
     if (response['success'] == null || !response['success']) {
@@ -61,25 +58,58 @@ class _LoginViewState extends State<LoginView> {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    _usernameController.clear();
     _passwordController.clear();
 
-    await User.login(username, password);
+    bool success = await User.login(username, password);
+    if (success) {
+      Navigator.of(context).pop();
+      return;
+    }
 
     setState(() {
+      errorMessage = 'Prijava ni bila uspešna';
       loggingIn = false;
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget error;
+    Widget error, submitButton;
 
-    if (errorMessage != '' && errorMessage != null) {
-      error = Text(errorMessage);
+    if (errorMessage != '' && errorMessage != null && !loggingIn) {
+      error = _addPaddingAndMaxWidth(
+          Text(
+            errorMessage,
+            style: TextStyle(fontSize: 16.0),
+          ));
     } else {
       error = Container();
     }
+
+    if (!loggingIn) {
+      submitButton = FlatButton(
+          disabledTextColor: Colors.white.withAlpha(120),
+          textColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          onPressed: _usernameController.text != '' &&
+              _passwordController.text != ''
+              ? login
+              : null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('Prijava'.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ))
+            ],
+          ));
+    } else {
+      submitButton = CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white));
+    }
+
+    submitButton = _addPaddingAndMaxWidth(submitButton);
 
     return Scaffold(
         backgroundColor: Colors.green,
@@ -89,25 +119,21 @@ class _LoginViewState extends State<LoginView> {
             accentColor: Colors.white,
             primaryColor: Colors.white
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(children: [Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 32.0),
                   child: Image.asset(
                   'images/logo.png',
                   width: 100.0,
               )),
               _addPaddingAndMaxWidth(TextField(
                 controller: _usernameController,
-                autofocus: true,
                 decoration: InputDecoration(
                     hintText: 'Uporabniško ime',
                     hintStyle: TextStyle(
                         fontSize: 16.0,
                         color: Colors.white.withAlpha(120)),
-                    border: UnderlineInputBorder()
                 ),
                 style: TextStyle(
                     fontSize: 16.0,
@@ -135,26 +161,10 @@ class _LoginViewState extends State<LoginView> {
                 textCapitalization: TextCapitalization.none,
               )),
               error,
-              _addPaddingAndMaxWidth(FlatButton(
-                  disabledTextColor: Colors.white.withAlpha(120),
-                  textColor: Colors.white,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                  onPressed: _usernameController.text != '' &&
-                          _passwordController.text != ''
-                      ? login
-                      : null,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Prijava'.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ))
-                    ],
-                  )))
+              submitButton,
+              Container(height: 64.0,)
             ],
-          ),
+          )]),
         ));
   }
 }

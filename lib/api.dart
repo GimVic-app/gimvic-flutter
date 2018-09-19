@@ -31,5 +31,6 @@ Future<Map<String, Object>> loginUser(String username, String password) async {
     'username': username,
     'password': password
   });
+
   return data;
 }

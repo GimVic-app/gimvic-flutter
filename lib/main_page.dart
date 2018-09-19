@@ -69,17 +69,7 @@ class _MainPageState extends State<MainPage>
   @override
   void afterFirstLayout(BuildContext context) {
     if (!User.isLoggedIn()) {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return LoginView();
-          })
-      ).then((_) {
-        if (User.isLoggedIn()) {
-          loadData();
-        } else {
-          SystemNavigator.pop();
-        }
-      });
+      openLoginPage();
       return;
     }
 
@@ -122,6 +112,7 @@ class _MainPageState extends State<MainPage>
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
                 User.logout();
+                openLoginPage();
               }),
           new IconButton(
               icon: Icon(Icons.settings),
@@ -136,5 +127,19 @@ class _MainPageState extends State<MainPage>
       ),
       body: TabBarView(controller: controller, children: tabs),
     );
+  }
+
+  void openLoginPage() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) {
+          return LoginView();
+        })
+    ).then((_) {
+      if (User.isLoggedIn()) {
+        loadData();
+      } else {
+        SystemNavigator.pop();
+      }
+    });
   }
 }
