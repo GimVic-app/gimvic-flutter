@@ -8,8 +8,6 @@ import 'package:gimvic_flutter/day_view.dart';
 import 'package:gimvic_flutter/settings.dart';
 import 'package:gimvic_flutter/login.dart';
 
-const _dayNames = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek'];
-
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -19,6 +17,9 @@ class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<MainPage> {
   TabController controller;
   List<GlobalKey<RefreshIndicatorState>> refreshKeys;
+  List<List<String>> _dayNames = [
+    ['Ponedeljek'], ['Torek'], ['Sreda'], ['Četrtek'], ['Petek']
+  ];
 
   List<Map<String, Object>> days;
   bool error = false;
@@ -29,6 +30,14 @@ class _MainPageState extends State<MainPage>
     int weekday = new DateTime.now().weekday - 1;
     if (weekday > 4) weekday = 0;
     controller = TabController(vsync: this, length: 5, initialIndex: weekday);
+
+    // init dates
+    DateTime day = DateTime.now().subtract(Duration(days: weekday));
+    for (int i = 0; i < 5; i++) {
+      _dayNames[i].add('${day.day.toString()}. ${day.month.toString()}.');
+      day = day.add(Duration(days: 1));
+    }
+
     super.initState();
 
     refreshKeys = [];
@@ -111,9 +120,21 @@ class _MainPageState extends State<MainPage>
         bottom: TabBar(
             controller: controller,
             isScrollable: true,
-            tabs: _dayNames.map<Tab>((String day) {
+            tabs: _dayNames.map<Tab>((List<String> day) {
               return Tab(
-                text: day.toUpperCase(),
+//                text: day.toUpperCase(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(day[0].toUpperCase(), softWrap: false,
+                        overflow: TextOverflow.fade),
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: Text(day[1], style: TextStyle(
+                          fontWeight: FontWeight.w300, fontSize: 13.0)),
+                    )
+                  ],
+                ),
               );
             }).toList()),
         actions: <Widget>[
@@ -124,29 +145,30 @@ class _MainPageState extends State<MainPage>
                 // (need to get menu data)
                 if (days == null) {
                   showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Ni internetne povezave'),
-                        content: Text('Izbira jedilnika ni mogoča brez internetne povezave'),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('V redu'.toUpperCase()),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ],
-                      );
-                    }
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Ni internetne povezave'),
+                          content: Text(
+                              'Izbira jedilnika ni mogoča brez internetne povezave'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('V redu'.toUpperCase()),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      }
                   );
                   return;
                 }
 
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return SettingsView(days, openLoginPage);
-                  })
+                    MaterialPageRoute(builder: (context) {
+                      return SettingsView(days, openLoginPage);
+                    })
                 );
               })
         ],
