@@ -40,7 +40,8 @@ class DayView extends StatelessWidget {
     }
 
     Widget timetable = Card(
-      color: dark ? Colors.transparent : null,
+      color: dark ? Colors.grey[900] : null,
+      elevation: dark ? 0.0 : null,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
@@ -58,7 +59,13 @@ class DayView extends StatelessWidget {
         child: ListView(
           physics: AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.all(8.0),
-          children: [timetable, menu],
+          children: [
+            timetable,
+            menu,
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+            )
+          ],
         ));
   }
 }

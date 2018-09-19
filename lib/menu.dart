@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gimvic_flutter/settings.dart';
+import 'package:gimvic_flutter/main.dart';
 
 class Menu extends StatelessWidget {
   final Map<String, Object> menu;
@@ -25,24 +26,26 @@ class Menu extends StatelessWidget {
         ((menu['kosilo'] as Map<String, Object>)[lunchType] as List)
             .cast<String>();
 
-    return Column(children: [
-      Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: MenuEntry(
-            'Malica - $snackType',
-            snack.join('\n'),
-          )),
-      Padding(
-        padding: EdgeInsets.only(top: 4.0),
-      ),
-      Padding(
-          padding: EdgeInsets.only(bottom: 4.0),
-          child: MenuEntry(
-            'Kosilo - $lunchType',
-            lunch.join('\n'),
-          )
-      )
-    ]);
+    return Card(
+      elevation: dark ? 0.0 : null,
+      color: dark ? Colors.transparent : null,
+      child: Column(children: [
+        MenuEntry(
+          'Malica',
+          snack.join('\n'),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 4.0),
+        ),
+        Padding(
+            padding: EdgeInsets.only(bottom: 4.0),
+            child: MenuEntry(
+              'Kosilo',
+              lunch.join('\n'),
+            )
+        ),
+      ]),
+    );
   }
 }
 
@@ -53,22 +56,26 @@ class MenuEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 4.0),
+              padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
               child: Text(title,
                   textAlign: TextAlign.center,
                   style:
-                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
+                      TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300)),
             ),
             Text(
               content,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.0),
+              style: TextStyle(
+                  height: 1.1,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                  color: dark ? Colors.grey[400] : Colors.grey[800]),
             )
           ]),
         ));
