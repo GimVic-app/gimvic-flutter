@@ -90,7 +90,10 @@ class _MainPageState extends State<MainPage>
       backgroundColor: dark ? Colors.grey[900] : null,
       appBar: new AppBar(
         backgroundColor: dark ? Colors.black : Colors.green,
-        title: new Text('GimVič'),
+        title: Image.asset(
+            dark ? 'images/gimvic_green.png' : 'images/gimvic.png',
+            height: 32.0
+        ),
         bottom: TabBar(
             controller: controller,
             isScrollable: true,

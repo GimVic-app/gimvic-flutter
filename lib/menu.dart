@@ -75,8 +75,8 @@ class MenuEntry extends StatelessWidget {
               style: TextStyle(
                   height: 1.1,
                   fontSize: 14.0,
-                  fontWeight: FontWeight.w400,
-                  color: dark ? Colors.grey[400] : Colors.grey[800]),
+                  fontWeight: dark ? FontWeight.w400 : FontWeight.w300,
+                  color: dark ? Colors.grey[500] : Colors.grey[800]),
             )
           ]),
         ));
