@@ -18,7 +18,11 @@ class _MainPageState extends State<MainPage>
   TabController controller;
   List<GlobalKey<RefreshIndicatorState>> refreshKeys;
   List<List<String>> _dayNames = [
-    ['Ponedeljek'], ['Torek'], ['Sreda'], ['Četrtek'], ['Petek']
+    ['Ponedeljek'],
+    ['Torek'],
+    ['Sreda'],
+    ['Četrtek'],
+    ['Petek']
   ];
 
   List<Map<String, Object>> days;
@@ -115,8 +119,7 @@ class _MainPageState extends State<MainPage>
         backgroundColor: dark ? Colors.black : Colors.green,
         title: Image.asset(
             dark ? 'images/gimvic_green.png' : 'images/gimvic.png',
-            height: 32.0
-        ),
+            height: 32.0),
         bottom: TabBar(
             controller: controller,
             isScrollable: true,
@@ -126,12 +129,13 @@ class _MainPageState extends State<MainPage>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text(day[0].toUpperCase(), softWrap: false,
-                        overflow: TextOverflow.fade),
+                    Text(day[0].toUpperCase(),
+                        softWrap: false, overflow: TextOverflow.fade),
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
-                      child: Text(day[1], style: TextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 13.0)),
+                      child: Text(day[1],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 13.0)),
                     )
                   ],
                 ),
@@ -160,16 +164,14 @@ class _MainPageState extends State<MainPage>
                             )
                           ],
                         );
-                      }
-                  );
+                      });
                   return;
                 }
 
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return SettingsView(days, openLoginPage);
-                    })
-                );
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return SettingsView(days, openLoginPage);
+                }));
               })
         ],
       ),
@@ -178,11 +180,9 @@ class _MainPageState extends State<MainPage>
   }
 
   void openLoginPage() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) {
-          return LoginView();
-        })
-    ).then((_) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return LoginView();
+    })).then((_) {
       if (User.isLoggedIn()) {
         loadData();
       } else {
