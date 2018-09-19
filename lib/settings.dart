@@ -24,7 +24,7 @@ class _SettingsViewState extends State<SettingsView> {
 
     snackOptions = (menu['malica'] as Map<String, Object>).keys.toList();
     lunchOptions = (menu['kosilo'] as Map<String, Object>).keys.toList();
-    
+
     super.initState();
   }
 
@@ -76,17 +76,15 @@ class _SettingsViewState extends State<SettingsView> {
             children: <Widget>[
               Text('Temna tema'),
               Switch(
-                value: sharedPreferences.getBool('dark_theme'),
-                onChanged: (value) {
-                  sharedPreferences.setBool('dark_theme', value);
-                  setState(() {});
-
-//                  print(context.ancestorStateOfType(TypeMatcher<GimVicState>()));
-                  updateAppTheme();
-
-//                  RestartWidget.restartApp(context);
-                },
-              )
+                  value: sharedPreferences.getBool('dark_theme'),
+                  onChanged: (value) {
+                    sharedPreferences.setBool('dark_theme', value);
+                    updateAppTheme();
+                    setState(() {});
+                  },
+                  activeColor: sharedPreferences.getBool('dark_theme')
+                      ? Colors.greenAccent[400]
+                      : Colors.green[400])
             ],
           )
         ],

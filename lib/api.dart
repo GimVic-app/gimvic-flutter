@@ -25,3 +25,11 @@ Future<Map<String, Object>> getData() async {
   Map data = await _getRequest('pridobi_javascript_object_notation', {});
   return data;
 }
+
+Future<Map<String, Object>> loginUser(String username, String password) async {
+  Map data = await _getRequest('prijavi_se_v_aplikacijo', {
+    'username': username,
+    'password': password
+  });
+  return data;
+}

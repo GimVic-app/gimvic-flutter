@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:gimvic_flutter/api.dart';
@@ -34,7 +35,6 @@ class _MainPageState extends State<MainPage>
     for (int i = 0; i < _dayNames.length; i++) {
       refreshKeys.add(GlobalKey<RefreshIndicatorState>());
     }
-    loadData();
   }
 
   void loadData() async {
@@ -68,6 +68,21 @@ class _MainPageState extends State<MainPage>
 
   @override
   void afterFirstLayout(BuildContext context) {
+    if (!User.isLoggedIn()) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return LoginView();
+          })
+      ).then((_) {
+        if (User.isLoggedIn()) {
+          loadData();
+        } else {
+          SystemNavigator.pop();
+        }
+      });
+      return;
+    }
+
     if (days == null) {
       for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
         key.currentState?.show();
@@ -106,14 +121,7 @@ class _MainPageState extends State<MainPage>
           new IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
-                print('tle se mormo logoutat');  // TODO: logout (after login)
-
-                //TODO: za zdele to odpre login page
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return LoginView();
-                    })
-                );
+                User.logout();
               }),
           new IconButton(
               icon: Icon(Icons.settings),
