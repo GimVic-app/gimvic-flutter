@@ -4,6 +4,8 @@ import 'package:gimvic_flutter/login.dart';
 
 SharedPreferences sharedPreferences;
 Function updateAppTheme;
+TextStyle titleTextStyle =
+    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
 
 class SettingsView extends StatefulWidget {
   final List<Map<String, Object>> days;
@@ -37,10 +39,10 @@ class _SettingsViewState extends State<SettingsView> {
         title: Text('Nastavitve'),
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
         children: <Widget>[
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Malica'),
+            Text('Malica', style: titleTextStyle),
             DropdownButton(
               items: snackOptions.map((String option) {
                 return DropdownMenuItem<String>(
@@ -55,10 +57,11 @@ class _SettingsViewState extends State<SettingsView> {
               },
             ),
           ]),
+          Padding(padding: EdgeInsets.only(top: 4.0)),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('Kosilo'),
+                Text('Kosilo', style: titleTextStyle),
                 DropdownButton(
                   items: lunchOptions.map((String option) {
                     return DropdownMenuItem<String>(
@@ -73,10 +76,11 @@ class _SettingsViewState extends State<SettingsView> {
                   },
                 ),
               ]),
+          Padding(padding: EdgeInsets.only(top: 32.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('Temna tema'),
+              Text('Temna tema', style: titleTextStyle),
               Switch(
                   value: sharedPreferences.getBool('dark_theme'),
                   onChanged: (value) {
@@ -89,11 +93,14 @@ class _SettingsViewState extends State<SettingsView> {
                       : Colors.green[400])
             ],
           ),
+          Padding(padding: EdgeInsets.only(top: 32.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
-                  child: Text('ODJAVA'),
+              RaisedButton(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('ODJAVA')),
                   onPressed: () {
                     User.logout();
 
