@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:gimvic_flutter/settings.dart';
 
 const apiUrl = 'http://178.128.205.197/';
 
@@ -22,7 +22,9 @@ Future _getRequest(String name, Map<String, dynamic> params) async {
 }
 
 Future<Map<String, Object>> getData() async {
-  Map data = await _getRequest('pridobi_javascript_object_notation', {});
+  Map data = await _getRequest('pridobi_javascript_object_notation', {
+    'token': sharedPreferences.getString('token')
+  });
   return data;
 }
 

@@ -60,6 +60,15 @@ class _MainPageState extends State<MainPage>
       return;
     }
 
+    // not authorized
+    if (data['dnevi'] == null) {
+      setState(() {
+        error = true;
+        loading = false;
+      });
+      return;
+    }
+
     loading = false;
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
@@ -109,17 +118,34 @@ class _MainPageState extends State<MainPage>
             }).toList()),
         actions: <Widget>[
           new IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                User.logout();
-                openLoginPage();
-              }),
-          new IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
+                // cannot show settings if data is not already loaded
+                // (need to get menu data)
+                if (days == null) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Ni internetne povezave'),
+                        content: Text('Izbira jedilnika ni mogoča brez internetne povezave'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('V redu'.toUpperCase()),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    }
+                  );
+                  return;
+                }
+
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return SettingsView(days);
+                    return SettingsView(days, openLoginPage);
                   })
                 );
               })

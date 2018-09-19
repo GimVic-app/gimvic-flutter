@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gimvic_flutter/login.dart';
 
 SharedPreferences sharedPreferences;
 Function updateAppTheme;
 
 class SettingsView extends StatefulWidget {
   final List<Map<String, Object>> days;
+  final Function onLogout;
 
-  SettingsView(this.days);
+  SettingsView(this.days, this.onLogout);
 
   @override
   _SettingsViewState createState() => _SettingsViewState();
@@ -85,6 +87,20 @@ class _SettingsViewState extends State<SettingsView> {
                   activeColor: sharedPreferences.getBool('dark_theme')
                       ? Colors.greenAccent[400]
                       : Colors.green[400])
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                  child: Text('ODJAVA'),
+                  onPressed: () {
+                    User.logout();
+
+                    // Close settings page and open login page
+                    Navigator.of(context).pop();
+                    widget.onLogout();
+                  })
             ],
           )
         ],
