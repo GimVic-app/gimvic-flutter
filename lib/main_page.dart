@@ -5,6 +5,7 @@ import 'package:gimvic_flutter/api.dart';
 import 'package:gimvic_flutter/day_view.dart';
 import 'package:gimvic_flutter/main.dart';
 import 'package:gimvic_flutter/settings.dart';
+import 'package:gimvic_flutter/login.dart';
 
 const _dayNames = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek'];
 
@@ -98,6 +99,13 @@ class _MainPageState extends State<MainPage>
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
                 print('tle se mormo logoutat');  // TODO: logout (after login)
+
+                //TODO: za zdele to odpre login page
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return LoginView();
+                    })
+                );
               }),
           new IconButton(
               icon: Icon(Icons.settings),
