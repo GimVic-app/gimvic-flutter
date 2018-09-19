@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:gimvic_flutter/api.dart';
 import 'package:gimvic_flutter/day_view.dart';
+import 'package:gimvic_flutter/main.dart';
 import 'package:gimvic_flutter/settings.dart';
 
 const _dayNames = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek'];
@@ -81,6 +82,7 @@ class _MainPageState extends State<MainPage>
 
     return new Scaffold(
       appBar: new AppBar(
+        backgroundColor: dark ? Colors.black : Colors.green,
         title: new Text('GimVič'),
         bottom: TabBar(
             controller: controller,
@@ -107,7 +109,6 @@ class _MainPageState extends State<MainPage>
               })
         ],
       ),
-      backgroundColor: Colors.grey[200],
       body: TabBarView(controller: controller, children: tabs),
     );
   }
