@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gimvic_flutter/menu.dart';
 import 'package:gimvic_flutter/lesson.dart';
-import 'package:gimvic_flutter/main.dart';
+import 'package:gimvic_flutter/settings.dart';
 
 class DayView extends StatelessWidget {
   final Map<String, Object> data;
@@ -17,6 +17,8 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool dark = sharedPreferences.getBool('dark_theme');
+
     if (data == null || error) {
       return RefreshIndicator(
         key: indicatorKey,

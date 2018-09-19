@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gimvic_flutter/main.dart';
+import 'package:gimvic_flutter/settings.dart';
 
 TextStyle numberTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300);
@@ -9,24 +9,6 @@ TextStyle lessonTextStyle =
 
 TextStyle classroomTextStyle =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300);
-
-TextStyle numberTextStyleNadomescanje = TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w400,
-        color: dark ? Colors.greenAccent[400] : Colors.green[400]
-    );
-
-TextStyle lessonTextStyleNadomescanje = TextStyle(
-    fontSize: 20.0,
-    fontWeight: FontWeight.w500,
-    color: dark ? Colors.greenAccent[400] : Colors.green[400]
-);
-
-TextStyle classroomTextStyleNadomescanje = TextStyle(
-    fontSize: 16.0,
-    fontWeight: FontWeight.w400,
-    color: dark ? Colors.greenAccent[400] : Colors.green[400]
-);
 
 class Lesson extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -97,6 +79,13 @@ class _SupLessonItem extends StatefulWidget {
 
 class _SupLessonItemState extends State<_SupLessonItem>
     with SingleTickerProviderStateMixin {
+
+  bool dark;
+
+  TextStyle numberTextStyleNadomescanje;
+  TextStyle lessonTextStyleNadomescanje;
+  TextStyle classroomTextStyleNadomescanje;
+
   AnimationController _controller;
   CurvedAnimation _easeInAnimation;
 
@@ -187,6 +176,24 @@ class _SupLessonItemState extends State<_SupLessonItem>
 
   @override
   Widget build(BuildContext context) {
+    dark = sharedPreferences.getBool('dark_theme');
+
+    numberTextStyleNadomescanje = TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w400,
+        color: dark ? Colors.greenAccent[400] : Colors.green[400]
+    );
+    lessonTextStyleNadomescanje = TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w500,
+        color: dark ? Colors.greenAccent[400] : Colors.green[400]
+    );
+    classroomTextStyleNadomescanje = TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: dark ? Colors.greenAccent[400] : Colors.green[400]
+    );
+
     final bool closed = !expanded && _controller.isDismissed;
     return AnimatedBuilder(
       animation: _controller.view,

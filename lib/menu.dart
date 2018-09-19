@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gimvic_flutter/settings.dart';
-import 'package:gimvic_flutter/main.dart';
 
 class Menu extends StatelessWidget {
   final Map<String, Object> menu;
+  final bool dark = sharedPreferences.getBool('dark_theme');
 
   Menu(this.menu);
 
@@ -50,6 +50,7 @@ class Menu extends StatelessWidget {
 }
 
 class MenuEntry extends StatelessWidget {
+  final bool dark = sharedPreferences.getBool('dark_theme');
   final String title, content;
 
   MenuEntry(this.title, this.content);

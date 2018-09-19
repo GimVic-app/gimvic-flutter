@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences sharedPreferences;
+Function updateAppTheme;
 
 class SettingsView extends StatefulWidget {
   final List<Map<String, Object>> days;
@@ -14,6 +15,7 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   List<String> snackOptions, lunchOptions;
+  bool darkTheme;
 
   @override
   void initState() {
@@ -22,7 +24,7 @@ class _SettingsViewState extends State<SettingsView> {
 
     snackOptions = (menu['malica'] as Map<String, Object>).keys.toList();
     lunchOptions = (menu['kosilo'] as Map<String, Object>).keys.toList();
-
+    
     super.initState();
   }
 
@@ -46,9 +48,8 @@ class _SettingsViewState extends State<SettingsView> {
               }).toList(),
               value: sharedPreferences.getString('snack_type'),
               onChanged: (String selected) async {
-                setState(() {
-                  sharedPreferences.setString('snack_type', selected);
-                });
+                sharedPreferences.setString('snack_type', selected);
+                setState(() {});
               },
             ),
           ]),
@@ -65,12 +66,29 @@ class _SettingsViewState extends State<SettingsView> {
                   }).toList(),
                   value: sharedPreferences.getString('lunch_type'),
                   onChanged: (String selected) async {
-                    setState(() {
-                      sharedPreferences.setString('lunch_type', selected);
-                    });
+                    sharedPreferences.setString('lunch_type', selected);
+                    setState(() {});
                   },
                 ),
-              ])
+              ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Temna tema'),
+              Switch(
+                value: sharedPreferences.getBool('dark_theme'),
+                onChanged: (value) {
+                  sharedPreferences.setBool('dark_theme', value);
+                  setState(() {});
+
+//                  print(context.ancestorStateOfType(TypeMatcher<GimVicState>()));
+                  updateAppTheme();
+
+//                  RestartWidget.restartApp(context);
+                },
+              )
+            ],
+          )
         ],
       ),
     );

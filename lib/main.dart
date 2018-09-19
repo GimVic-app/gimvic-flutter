@@ -5,13 +5,36 @@ import 'package:gimvic_flutter/settings.dart';
 
 void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
-  runApp(new MyApp());
+  runApp(GimVic());
 }
 
-bool dark = true;
+class GimVic extends StatefulWidget {
+  @override
+  GimVicState createState() => GimVicState();
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class GimVicState extends State<GimVic> {
+  bool dark;
+
+  @override
+  void initState() {
+    dark = sharedPreferences.getBool('dark_theme');
+    updateAppTheme = updateTheme;
+
+    if (dark == null) {
+      dark = false;
+      sharedPreferences.setBool('dark_theme', dark);
+    }
+
+    super.initState();
+  }
+
+  void updateTheme() {
+    setState(() {
+      dark = sharedPreferences.getBool('dark_theme');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

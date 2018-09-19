@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:gimvic_flutter/api.dart';
 import 'package:gimvic_flutter/day_view.dart';
-import 'package:gimvic_flutter/main.dart';
 import 'package:gimvic_flutter/settings.dart';
 import 'package:gimvic_flutter/login.dart';
 
@@ -34,10 +34,14 @@ class _MainPageState extends State<MainPage>
     for (int i = 0; i < _dayNames.length; i++) {
       refreshKeys.add(GlobalKey<RefreshIndicatorState>());
     }
+    loadData();
   }
 
   void loadData() async {
-    if (loading) return;
+    if (loading) {
+      while (loading) await Future.delayed(Duration(milliseconds: 50));
+      return;
+    }
     error = false;
     loading = true;
 
@@ -73,6 +77,7 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    bool dark = sharedPreferences.getBool('dark_theme');
     List<Widget> tabs = [];
 
     for (int i = 0; i < _dayNames.length; i++) {
