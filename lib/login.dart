@@ -3,6 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gimvic_flutter/settings.dart';
 import 'package:gimvic_flutter/api.dart';
 
+TextStyle _hintStyle = TextStyle(
+    fontSize: 16.0,
+    color: Colors.white.withAlpha(120));
+
+const TextStyle _inputStyle = TextStyle(
+    fontSize: 16.0,
+    color: Colors.white);
+
 class User {
   static bool isLoggedIn() {
     String token = sharedPreferences.getString('token');
@@ -114,10 +122,10 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
         backgroundColor: Colors.green,
         body: Theme(
-          data: Theme.of(context).copyWith(
-            brightness: Brightness.light,
+          data: ThemeData(
+            cursorColor: Colors.white,
+            brightness: Brightness.dark,
             accentColor: Colors.white,
-            primaryColor: Colors.white
           ),
           child: ListView(children: [Column(
             children: <Widget>[
@@ -131,31 +139,21 @@ class _LoginViewState extends State<LoginView> {
                 controller: _usernameController,
                 decoration: InputDecoration(
                     hintText: 'Uporabniško ime',
-                    hintStyle: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white.withAlpha(120)),
+                    hintStyle: _hintStyle,
                 ),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white),
+                style: _inputStyle,
                 onChanged: (text) => setState(() {}),
                 autocorrect: false,
-                cursorColor: Colors.white,
                 textCapitalization: TextCapitalization.none,
               )),
               _addPaddingAndMaxWidth(TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                     hintText: 'Geslo',
-                    hintStyle: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white.withAlpha(120)),
+                    hintStyle: _hintStyle,
                 ),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white),
+                style: _inputStyle,
                 obscureText: true,
-                cursorColor: Colors.white,
                 onChanged: (text) => setState(() {}),
                 autocorrect: false,
                 textCapitalization: TextCapitalization.none,

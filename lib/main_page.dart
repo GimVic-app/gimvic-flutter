@@ -99,6 +99,14 @@ class _MainPageState extends State<MainPage>
     for (int i = 0; i < _dayNames.length; i++) {
       refreshKeys.add(GlobalKey<RefreshIndicatorState>());
     }
+
+    controller.addListener(() {
+      if (loading) {
+        // show refresh on new tab
+        int index = controller.index;
+        refreshKeys[index].currentState?.show();
+      }
+    });
   }
 
   @override

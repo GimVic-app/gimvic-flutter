@@ -148,15 +148,15 @@ class Lesson extends StatelessWidget {
                                         substitutionOriginalSubjectTextStyle)),
                               ],
                             ),
-                            Row(
+                            Expanded(child: Row(
                               children: <Widget>[
-                                Padding(
+                                Expanded(child: Padding(
                                     padding:
                                     EdgeInsets.only(left: 12.0, right: 16.0),
                                     child: Text((data['ucitelji'].join(', ')),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.right,
-                                        style: teacherTextStyle)),
+                                        style: teacherTextStyle))),
                                 Container(
                                   width: 32.0,
                                   child: Text(data['ucilnica'].toString(),
@@ -164,7 +164,7 @@ class Lesson extends StatelessWidget {
                                       textAlign: TextAlign.right),
                                 )
                               ],
-                            )
+                            ))
                           ],
                         ),
                         data['opomba'] != null && data['opomba'] != ''
