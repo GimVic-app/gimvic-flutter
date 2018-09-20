@@ -11,10 +11,6 @@ class DayView extends StatelessWidget {
 
   DayView(this.data, this.onRefresh, this.indicatorKey, this.error);
 
-  void showIndicator() async {
-    indicatorKey.currentState?.show();
-  }
-
   @override
   Widget build(BuildContext context) {
     bool dark = sharedPreferences.getBool('dark_theme');

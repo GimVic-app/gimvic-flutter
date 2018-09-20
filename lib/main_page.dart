@@ -31,15 +31,25 @@ class _MainPageState extends State<MainPage>
 
   void loadData() async {
     if (loading) {
-      while (loading) await Future.delayed(Duration(milliseconds: 50));
+      while (loading) {
+        await Future.delayed(Duration(milliseconds: 50));
+        refreshKeys[controller.index].currentState?.show();
+      }
       return;
     }
+
     error = false;
     loading = true;
 
-    for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
-      key.currentState?.show();
-    }
+    // force controller to show up.
+    // Current state could be null for some reason
+    refreshKeys[controller.index].currentState?.show();
+    Future.delayed(Duration(milliseconds: 200)).then((_) {
+      if (loading) refreshKeys[controller.index].currentState?.show();
+    });
+    Future.delayed(Duration(milliseconds: 400)).then((_) {
+      if (loading) refreshKeys[controller.index].currentState?.show();
+    });
 
     Map<String, Object> data;
     try {
@@ -82,9 +92,7 @@ class _MainPageState extends State<MainPage>
     if (DateTime.now().weekday <= 5) {
       day = day.subtract(Duration(days: new DateTime.now().weekday - 1));
     } else {
-      day = day.add(Duration(days: 8 - DateTime
-          .now()
-          .weekday));
+      day = day.add(Duration(days: 8 - DateTime.now().weekday));
     }
 
     // fill dates for each day
@@ -117,9 +125,8 @@ class _MainPageState extends State<MainPage>
     }
 
     if (days == null) {
-      for (GlobalKey<RefreshIndicatorState> key in refreshKeys) {
-        key.currentState?.show();
-      }
+      loadData();
+      refreshKeys[controller.index].currentState?.show();
     }
   }
 
@@ -146,7 +153,6 @@ class _MainPageState extends State<MainPage>
             isScrollable: true,
             tabs: _dayNames.map<Tab>((List<String> day) {
               return Tab(
-//                text: day.toUpperCase(),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
