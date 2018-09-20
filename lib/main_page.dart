@@ -29,27 +29,6 @@ class _MainPageState extends State<MainPage>
   bool error = false;
   bool loading = false;
 
-  @override
-  void initState() {
-    int weekday = new DateTime.now().weekday - 1;
-    if (weekday > 4) weekday = 0;
-    controller = TabController(vsync: this, length: 5, initialIndex: weekday);
-
-    // init dates
-    DateTime day = DateTime.now().subtract(Duration(days: weekday));
-    for (int i = 0; i < 5; i++) {
-      _dayNames[i].add('${day.day.toString()}. ${day.month.toString()}.');
-      day = day.add(Duration(days: 1));
-    }
-
-    super.initState();
-
-    refreshKeys = [];
-    for (int i = 0; i < _dayNames.length; i++) {
-      refreshKeys.add(GlobalKey<RefreshIndicatorState>());
-    }
-  }
-
   void loadData() async {
     if (loading) {
       while (loading) await Future.delayed(Duration(milliseconds: 50));
@@ -86,6 +65,40 @@ class _MainPageState extends State<MainPage>
     setState(() {
       days = (data['dnevi'] as List).cast<Map<String, Object>>();
     });
+  }
+
+  @override
+  void initState() {
+    int weekday = new DateTime.now().weekday - 1;
+    // show the next day in the afternoon
+    if (DateTime.now().hour > 16) weekday++;
+    // handle weekends
+    if (weekday > 4) weekday = 0;
+    // set default tab
+    controller = TabController(vsync: this, length: 5, initialIndex: weekday);
+
+    // init dates (on weekend, show next week)
+    DateTime day = DateTime.now();
+    if (DateTime.now().weekday <= 5) {
+      day = day.subtract(Duration(days: new DateTime.now().weekday - 1));
+    } else {
+      day = day.add(Duration(days: 8 - DateTime
+          .now()
+          .weekday));
+    }
+
+    // fill dates for each day
+    for (int i = 0; i < 5; i++) {
+      _dayNames[i].add('${day.day.toString()}. ${day.month.toString()}.');
+      day = day.add(Duration(days: 1));
+    }
+
+    super.initState();
+
+    refreshKeys = [];
+    for (int i = 0; i < _dayNames.length; i++) {
+      refreshKeys.add(GlobalKey<RefreshIndicatorState>());
+    }
   }
 
   @override
