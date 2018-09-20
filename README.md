@@ -7,4 +7,5 @@ Android and iOS app for Gimnazija GimVič written in Flutter framework.
 2. Try to remember password and key alias.
 3. Try harder.
 4. Copy `android/key.properties.default` to `android/key.properties` and edit it to contain key info.
-5. Run `flutter build apk --release`
+5. Update version number and code in `app/build.gradle`.
+6. Run `flutter build apk --release`.
