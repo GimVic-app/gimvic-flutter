@@ -1,4 +1,4 @@
-package com.gimvic.gimvicflutter
+package com.zigapk.gimvic.suplence
 
 import android.os.Bundle
 

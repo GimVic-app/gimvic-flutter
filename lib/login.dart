@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
       error = _addPaddingAndMaxWidth(
           Text(
             errorMessage,
-            style: TextStyle(fontSize: 16.0),
+            style: TextStyle(fontSize: 16.0, color: Colors.white),
           ));
     } else {
       error = Container();
