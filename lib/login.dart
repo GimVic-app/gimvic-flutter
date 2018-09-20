@@ -49,6 +49,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FocusNode passwordFocusNode = FocusNode();
   String errorMessage;
 
   bool loggingIn = false;
@@ -78,6 +79,7 @@ class _LoginViewState extends State<LoginView> {
       errorMessage = 'Prijava ni bila uspešna';
       loggingIn = false;
     });
+    FocusScope.of(context).requestFocus(passwordFocusNode);
 
   }
 
@@ -137,6 +139,10 @@ class _LoginViewState extends State<LoginView> {
               )),
               _addPaddingAndMaxWidth(TextField(
                 controller: _usernameController,
+                autofocus: true,
+                onSubmitted: (String username) {
+                  FocusScope.of(context).requestFocus(passwordFocusNode);
+                },
                 decoration: InputDecoration(
                     hintText: 'Uporabniško ime',
                     hintStyle: _hintStyle,
@@ -148,6 +154,8 @@ class _LoginViewState extends State<LoginView> {
               )),
               _addPaddingAndMaxWidth(TextField(
                 controller: _passwordController,
+                focusNode: passwordFocusNode,
+                onSubmitted: (_) => login(),
                 decoration: InputDecoration(
                     hintText: 'Geslo',
                     hintStyle: _hintStyle,
