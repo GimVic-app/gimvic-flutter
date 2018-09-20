@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage>
   void initState() {
     int weekday = new DateTime.now().weekday - 1;
     // show the next day in the afternoon
-    if (DateTime.now().hour > 16) weekday++;
+    if (DateTime.now().hour > 16 && DateTime.now().weekday != 5) weekday++;
     // handle weekends
     if (weekday > 4) weekday = 0;
     // set default tab

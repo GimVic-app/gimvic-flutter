@@ -139,11 +139,11 @@ class Lesson extends StatelessWidget {
                               children: <Widget>[
                                 Padding(
                                     padding: EdgeInsets.only(left: 12.0),
-                                    child: Text(data['predmet'],
+                                    child: Text(data['prosta_ura'] ? '-' : data['predmet'],
                                         style: lessonTextStyleNadomescanje)),
                                 Padding(
                                     padding: EdgeInsets.only(left: 6.0),
-                                    child: Text(data['original']['predmet'],
+                                    child: Text(data['original']['predmet'] ?? '',
                                         style:
                                         substitutionOriginalSubjectTextStyle)),
                               ],
@@ -153,13 +153,13 @@ class Lesson extends StatelessWidget {
                                 Expanded(child: Padding(
                                     padding:
                                     EdgeInsets.only(left: 12.0, right: 16.0),
-                                    child: Text((data['ucitelji'].join(', ')),
+                                    child: Text((data['prosta_ura'] ? '-' : data['ucitelji'].join(', ')),
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.right,
                                         style: teacherTextStyle))),
                                 Container(
                                   width: 32.0,
-                                  child: Text(data['ucilnica'].toString(),
+                                  child: Text(data['prosta_ura'] ? '-' : data['ucilnica'].toString(),
                                       style: classroomTextStyleNadomescanje,
                                       textAlign: TextAlign.right),
                                 )
